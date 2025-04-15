@@ -220,40 +220,97 @@ function addRouteMarkers(waypoints) {
 
 // Animate the marker along the route
 function animateRoute() {
-    if (animatedMarker) {
-        map.removeLayer(animatedMarker);
-    }
-    
     if (!routeCoordinates || routeCoordinates.length < 2) return;
+    
+    // If animation is already running, do nothing
+    if (animatedMarker && !animatedMarker._paused) return;
     
     const speedSettings = animationSpeeds[currentSpeed];
     
-    animatedMarker = L.animatedMarker(routeCoordinates, {
-        icon: vehicleIcons[currentMarkerType],
-        autoStart: true,
-        distance: speedSettings.distance,
-        interval: speedSettings.interval,
-        onEnd: function() {
-            const endPoint = routeCoordinates[routeCoordinates.length - 1];
-            L.popup()
-                .setLatLng(endPoint)
-                .setContent("<strong>Destination reached!</strong><br>Journey completed successfully.")
-                .openOn(map);
+    // If we have a paused marker, remove it and create a new animation
+    if (animatedMarker) {
+        const currentPos = animatedMarker.getLatLng();
+        map.removeLayer(animatedMarker);
+        
+        // Find closest point on the route
+        let closestIdx = 0;
+        let minDist = Infinity;
+        
+        for (let i = 0; i < routeCoordinates.length; i++) {
+            const pt = routeCoordinates[i];
+            const dist = map.distance(currentPos, L.latLng(pt[0], pt[1]));
+            if (dist < minDist) {
+                minDist = dist;
+                closestIdx = i;
+            }
+        }
+        
+        // Continue from closest point
+        const remainingRoute = routeCoordinates.slice(closestIdx);
+        
+        animatedMarker = L.animatedMarker(remainingRoute, {
+            icon: vehicleIcons[currentMarkerType],
+            distance: speedSettings.distance,
+            interval: speedSettings.interval,
+            onEnd: function() {
+                const endPoint = routeCoordinates[routeCoordinates.length - 1];
+                L.popup()
+                    .setLatLng(endPoint)
+                    .setContent("<strong>Destination reached!</strong><br>Journey completed successfully.")
+                    .openOn(map);
+                
+                document.getElementById('startAnimation').disabled = true;
+                document.getElementById('stopAnimation').disabled = true;
+            }
+        }).addTo(map);
+    } else {
+        // Create a new animation from the beginning
+        animatedMarker = L.animatedMarker(routeCoordinates, {
+            icon: vehicleIcons[currentMarkerType],
+            distance: speedSettings.distance,
+            interval: speedSettings.interval,
+            onEnd: function() {
+                const endPoint = routeCoordinates[routeCoordinates.length - 1];
+                L.popup()
+                    .setLatLng(endPoint)
+                    .setContent("<strong>Destination reached!</strong><br>Journey completed successfully.")
+                    .openOn(map);
+                
+                document.getElementById('startAnimation').disabled = true;
+                document.getElementById('stopAnimation').disabled = true;
+            }
+        }).addTo(map);
     }
-}).addTo(map);
-
+    
+    // Mark animation as active (not paused)
+    animatedMarker._paused = false;
+    
+    // Update button states
     document.getElementById('startAnimation').disabled = true;
     document.getElementById('stopAnimation').disabled = false;
 }
 
-// Stop animation
+// Stop (pause) animation
 function stopAnimation() {
-    if (animatedMarker) {
-        map.removeLayer(animatedMarker);
-        animatedMarker = null;
-        document.getElementById('startAnimation').disabled = false;
-        document.getElementById('stopAnimation').disabled = true;
-    }
+    if (!animatedMarker) return;
+    
+    // Get current position
+    const currentPos = animatedMarker.getLatLng();
+    
+    // Stop animation by removing it
+    map.removeLayer(animatedMarker);
+    
+    // Replace with a static marker
+    animatedMarker = L.marker(currentPos, {
+        icon: vehicleIcons[currentMarkerType]
+    }).addTo(map);
+    
+    // Mark as paused
+    animatedMarker._paused = true;
+    
+    // Update button states
+    document.getElementById('startAnimation').disabled = false;
+    document.getElementById('stopAnimation').disabled = true;
 }
 
 // Change animation speed
@@ -265,40 +322,10 @@ function changeSpeed(speed) {
     });
     document.getElementById(speed + 'Speed').classList.add('active');
     
-    if (animatedMarker) {
-        const currentPosition = animatedMarker.getLatLng();
-        
-        // Find closest point on route
-        let closestPointIndex = 0;
-        let minDistance = Infinity;
-        
-        for (let i = 0; i < routeCoordinates.length; i++) {
-            const point = routeCoordinates[i];
-            const distance = map.distance(currentPosition, point);
-            
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestPointIndex = i;
-            }
-        }
-        
-        const remainingRoute = routeCoordinates.slice(closestPointIndex);
-        map.removeLayer(animatedMarker);
-        
-        const speedSettings = animationSpeeds[currentSpeed];
-        animatedMarker = L.animatedMarker(remainingRoute, {
-            icon: vehicleIcons[currentMarkerType],
-            autoStart: true,
-            distance: speedSettings.distance,
-            interval: speedSettings.interval,
-            onEnd: function() {
-                const endPoint = routeCoordinates[routeCoordinates.length - 1];
-                L.popup()
-                    .setLatLng(endPoint)
-                    .setContent("<strong>Destination reached!</strong><br>Journey completed successfully.")
-                    .openOn(map);
-            }
-        }).addTo(map);
+    // If animation is currently running, restart with new speed
+    if (animatedMarker && !animatedMarker._paused) {
+        stopAnimation();
+        animateRoute();
     }
 }
 
@@ -312,41 +339,25 @@ function changeMarkerType(type) {
     });
     document.getElementById(type + 'Marker').classList.add('active');
     
-    // Update the marker if animation is running
+    // If we have a marker, update its icon
     if (animatedMarker) {
-        const currentPosition = animatedMarker.getLatLng();
+        const isPaused = animatedMarker._paused;
+        const currentPos = animatedMarker.getLatLng();
         
-        // Find closest point on route
-        let closestPointIndex = 0;
-        let minDistance = Infinity;
-        
-        for (let i = 0; i < routeCoordinates.length; i++) {
-            const point = routeCoordinates[i];
-            const distance = map.distance(currentPosition, point);
-            
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestPointIndex = i;
-            }
-        }
-        
-        const remainingRoute = routeCoordinates.slice(closestPointIndex);
+        // Remove current marker
         map.removeLayer(animatedMarker);
         
-        const speedSettings = animationSpeeds[currentSpeed];
-        animatedMarker = L.animatedMarker(remainingRoute, {
-            icon: vehicleIcons[type],
-            autoStart: true,
-            distance: speedSettings.distance,
-            interval: speedSettings.interval,
-            onEnd: function() {
-                const endPoint = routeCoordinates[routeCoordinates.length - 1];
-                L.popup()
-                    .setLatLng(endPoint)
-                    .setContent("<strong>Destination reached!</strong><br>Journey completed successfully.")
-                    .openOn(map);
-            }
-        }).addTo(map);
+        if (isPaused) {
+            // Re-create static marker with new icon
+            animatedMarker = L.marker(currentPos, {
+                icon: vehicleIcons[type]
+            }).addTo(map);
+            animatedMarker._paused = true;
+        } else {
+            // Re-create animation with new icon (stop and restart)
+            stopAnimation();
+            animateRoute();
+        }
     }
 }
 
