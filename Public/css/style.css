@@ -154,34 +154,41 @@ html,body{
 /* History panel */
 .history-panel {
     background: white;
-    padding: 10px;
+    padding: 12px;
     border-radius: 5px;
     box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    min-width: 180px;
 }
 .history-panel h4 {
     margin: 0 0 10px 0;
     text-align: center;
     color: #333;
     font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
 }
 .history-btn-container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 .history-btn {
     padding: 8px;
     border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
 }
 #yesterdayBtn {
-    background: #FF5722;
+    background: #4CAF50; /* Green */
 }
 #twoDaysAgoBtn {
-    background: #9C27B0;
+    background: #2196F3; /* Blue */
 }
 #clearBtn {
-    background: #F44336;
-    margin-top: 5px;
+    background: #F44336; /* Red */
+    margin-top: 10px;
+    font-weight: bold;
 }
 .history-btn.active {
     box-shadow: 0 0 0 3px #ffeb3b !important;
@@ -216,27 +223,32 @@ html,body{
 /* Animation controls */
 .animation-panel {
     background: rgba(255, 255, 255, 0.9);
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     display: inline-block;
+    min-width: 350px;
 }
 .animation-layout {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 5px;
 }
 .speed-container {
     display: flex;
-    gap: 3px;
+    gap: 0;
 }
 .speed-btn {
-    padding: 5px 10px;
+    padding: 8px 12px;
     background: #607D8B;
     color: white;
     border: none;
     font-size: 14px;
     cursor: pointer;
+    min-width: 65px;
+    text-align: center;
 }
 #slowSpeed {
     border-radius: 5px 0 0 5px;
@@ -250,18 +262,25 @@ html,body{
 }
 .animation-buttons {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 .animation-btn {
-    padding: 5px 15px;
+    padding: 8px 15px;
     border-radius: 5px;
     font-size: 15px;
+    min-width: 80px;
+    text-align: center;
+    font-weight: bold;
 }
 #startAnimation {
     background: #2196F3;
 }
 #stopAnimation {
     background: #F44336;
+}
+#startAnimation:disabled, #stopAnimation:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Custom positioning */
@@ -284,12 +303,13 @@ html,body{
 
 /* Marker selection */
 .marker-selection {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 15px;
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 8px;
+    padding: 10px 20px;
     border-radius: 8px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -298,16 +318,18 @@ html,body{
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    min-width: 70px;
+    padding: 5px;
 }
 .marker-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 6px;
     color: #333;
 }
 .marker-image {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border: 2px solid #ddd;
     border-radius: 50%;
     padding: 3px;
