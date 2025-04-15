@@ -7,23 +7,25 @@ const streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     maxZoom: 19
 }).addTo(map);
 
-const satellite = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    attribution: 'Manu----Tracker | Satellite Data &copy; Google',
-    maxZoom: 20,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+// Use Mapbox satellite imagery (more reliable with CORS)
+const satellite = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFudWJpdHQiLCJhIjoiY2xzeTRwenhsMGplNTJpcXJ0eTc0cXRnNyJ9.PYRxKnK27HdcLWfgAoC0aQ', {
+    attribution: 'Manu----Tracker | © <a href="https://www.mapbox.com/">Mapbox</a>',
+    tileSize: 512,
+    zoomOffset: -1,
+    maxZoom: 19
 });
 
-// Alternative satellite sources if the above doesn't work
-const satelliteEsri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Manu----Tracker | Imagery &copy; Esri',
-    maxZoom: 19
+// Alternative with Stadia Maps satellite (good CORS support)
+const satelliteStadia = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.jpg', {
+    attribution: 'Manu----Tracker | &copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+    maxZoom: 20
 });
 
 // Layer control with multiple satellite options
 L.control.layers({
     "Streets": streets,
-    "Satellite (Google)": satellite,
-    "Satellite (Esri)": satelliteEsri
+    "Satellite": satellite,
+    "Satellite (Alternative)": satelliteStadia
 }).addTo(map);
 
 // Variables
