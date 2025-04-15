@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 const path = require('path')
+const fs = require('fs')
 
 // Configure Express
 app.set('view engine', 'ejs')
@@ -15,7 +16,39 @@ app.use(express.static(path.join(__dirname, 'Public')))
 
 // Define routes
 app.get('/', (req, res) => {
-    res.render('index')
+    try {
+        // Check if we're in Vercel's serverless environment
+        if (process.env.VERCEL) {
+            console.log('Running in Vercel environment');
+            
+            // Try serving the HTML file directly instead of using EJS
+            const htmlPath = path.join(__dirname, 'views', 'index.html');
+            if (fs.existsSync(htmlPath)) {
+                console.log('Serving index.html directly');
+                return res.sendFile(htmlPath);
+            } else {
+                console.log('index.html not found at:', htmlPath);
+            }
+        }
+        
+        // Try rendering with EJS
+        res.render('index');
+    } catch (error) {
+        console.error('Error rendering view:', error);
+        
+        // Try serving HTML directly as fallback
+        try {
+            const htmlPath = path.join(__dirname, 'views', 'index.html');
+            if (fs.existsSync(htmlPath)) {
+                console.log('Fallback to serving index.html directly');
+                return res.sendFile(htmlPath);
+            }
+        } catch (fallbackError) {
+            console.error('Fallback error:', fallbackError);
+        }
+        
+        res.status(500).send('Error rendering view: ' + error.message);
+    }
 })
 
 // Handle 404
