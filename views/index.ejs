@@ -1,33 +1,79 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System tracker</title>
-    <!-- <link rel="stylesheet" href=".public/css/style.css">  -->
+    <title>Traaker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    html,body{
-        width: 100%;
-        height: 100%;
-    }
-    #map{
-        width: 100%;
-        height: 100%;
-    }
-</style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <!-- Logo Header -->
+    <div class="logo-header">
+        <div>
+            <div class="logo-text">Tra<span>aker</span></div>
+            <div class="logo-tagline">Professional Vehicle Tracking</div>
+        </div>
+    </div>
     
- </head>
- <body>
+    <!-- Help Button -->
+    <button class="help-button" id="helpBtn">?</button>
+    
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-content">
+            <div class="help-header">
+                <div class="help-title">Traaker - How it Works</div>
+                <button class="close-help" id="closeHelp">&times;</button>
+            </div>
+            
+            <div class="help-section">
+                <h3>Welcome to Traaker</h3>
+                <p>Traaker is a professional vehicle tracking system that allows you to monitor vehicle movements and analyze travel history.</p>
+            </div>
+            
+            <div class="help-section">
+                <h3>Tracking Features</h3>
+                <p>• <strong>Live Tracking:</strong> Monitor vehicle positions in real-time on the map</p>
+                <p>• <strong>Route History:</strong> View previous routes with the history buttons</p>
+                <p>• <strong>Route Animation:</strong> Replay vehicle movements with animation controls</p>
+                <p>• <strong>Vehicle Selection:</strong> Choose different vehicle types for tracking</p>
+                <p>• <strong>Route Statistics:</strong> View distance and time information for routes</p>
+            </div>
+            
+            <div class="help-section">
+                <h3>How to Use</h3>
+                <p>1. <strong>Vehicle Selection:</strong> Choose your preferred vehicle type from the icons at the bottom</p>
+                <p>2. <strong>History Panel:</strong> Use the buttons on the top right to view past travel data</p>
+                <p>3. <strong>Animations:</strong> Use the play controls at the bottom to simulate vehicle movement</p>
+                <p>4. <strong>Route Details:</strong> Click on route lines to view detailed information</p>
+            </div>
+        </div>
+    </div>
+    
     <div id="map"></div>
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="js/script.js"></script>
     
- </body>
- </html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.animatedmarker/src/AnimatedMarker.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Help button functionality
+        document.getElementById('helpBtn').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'flex';
+        });
+        
+        document.getElementById('closeHelp').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'none';
+        });
+        
+        // Close modal when clicking outside of content
+        document.getElementById('helpModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

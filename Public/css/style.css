@@ -1,3 +1,4 @@
+/* Base styles */
 *{
     margin: 0;
     padding: 0;
@@ -6,8 +7,320 @@
 html,body{
     width: 100%;
     height: 100%;
+    position: relative;
 }
 #map{
     width: 100%;
     height: 100%;
+}
+
+/* Logo Header */
+.logo-header {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+    border-left: 4px solid #2196F3;
+}
+
+.logo-text {
+    font-size: 26px;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 1px;
+    font-family: 'Arial', sans-serif;
+}
+
+.logo-text span {
+    color: #2196F3;
+}
+
+.logo-tagline {
+    font-size: 12px;
+    color: #666;
+    margin-top: -2px;
+}
+
+/* Help Button */
+.help-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.help-button:hover {
+    background: #0b7dda;
+    transform: scale(1.05);
+}
+
+/* Help Modal */
+.help-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-content {
+    background: white;
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    overflow-y: auto;
+}
+
+.help-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.help-title {
+    font-size: 22px;
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.close-help {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.help-section {
+    margin-bottom: 20px;
+}
+
+.help-section h3 {
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.help-section p {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+/* Button styles */
+.btn {
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* History panel */
+.history-panel {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+.history-panel h4 {
+    margin: 0 0 10px 0;
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+}
+.history-btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.history-btn {
+    padding: 8px;
+    border-radius: 4px;
+}
+#yesterdayBtn {
+    background: #FF5722;
+}
+#twoDaysAgoBtn {
+    background: #9C27B0;
+}
+#clearBtn {
+    background: #F44336;
+    margin-top: 5px;
+}
+.history-btn.active {
+    box-shadow: 0 0 0 3px #ffeb3b !important;
+}
+
+/* Loading message */
+.loading-box {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+/* Route summary */
+.summary-box {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    max-width: 300px;
+}
+.summary-box h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+/* Animation controls */
+.animation-panel {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: inline-block;
+}
+.animation-layout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.speed-container {
+    display: flex;
+    gap: 3px;
+}
+.speed-btn {
+    padding: 5px 10px;
+    background: #607D8B;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+#slowSpeed {
+    border-radius: 5px 0 0 5px;
+}
+#fastSpeed {
+    border-radius: 0 5px 5px 0;
+}
+.speed-btn.active {
+    background-color: #263238 !important;
+    box-shadow: 0 0 0 2px #ffeb3b !important;
+}
+.animation-buttons {
+    display: flex;
+    gap: 5px;
+}
+.animation-btn {
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+#startAnimation {
+    background: #2196F3;
+}
+#stopAnimation {
+    background: #F44336;
+}
+
+/* Custom positioning */
+.leaflet-bottom.leaflet-center {
+    width: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 30px;
+    pointer-events: none;
+}
+.leaflet-bottom.leaflet-center > * {
+    pointer-events: auto;
+}
+.animation-control {
+    margin: 0 auto !important;
+    float: none !important;
+    clear: both !important;
+}
+
+/* Marker selection */
+.marker-selection {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 8px;
+    border-radius: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.marker-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+.marker-label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+    color: #333;
+}
+.marker-image {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    padding: 3px;
+    transition: all 0.2s ease;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.marker-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.marker-image.active {
+    border-color: #ffeb3b;
+    background-color: rgba(255, 235, 59, 0.2);
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
 }
