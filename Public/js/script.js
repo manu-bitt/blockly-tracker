@@ -7,22 +7,15 @@ const streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     maxZoom: 19
 }).addTo(map);
 
-// OpenTopoMap as an alternative 
-const topoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    attribution: 'Manu----Tracker | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
-    maxZoom: 17
-});
-
 // Humanitarian style map - more contrast, good for tracking
 const humanitarian = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: 'Manu----Tracker | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/">HOT</a>',
     maxZoom: 19
 });
 
-// Layer control with multiple map options
+// Layer control with only two map options
 L.control.layers({
     "Streets": streets,
-    "Topographic": topoMap,
     "Humanitarian": humanitarian
 }).addTo(map);
 
