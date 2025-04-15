@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const http = require('http')
 const socketio = require('socket.io')
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-
-
-server.listen(3000)
+server.listen(port, () => {
+    console.log(`Traaker server running on port ${port}`)
+})
 
