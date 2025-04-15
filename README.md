@@ -1,48 +1,54 @@
-# VS-Tracker
+# Traaker - Professional Vehicle Tracking
 
-A real-time location tracking application built with Node.js, Express, Socket.io, and Leaflet.
+A vehicle tracking application built with Leaflet maps offering simulated route tracking and animation features.
 
 ## Features
 
-- Real-time location tracking
-- Multiple user support
-- Map visualization with both street and satellite views
-- Automatic marker updates
-- User disconnection handling
+- Interactive map interface using Leaflet
+- Vehicle position tracking
+- Route history visualization
+- Route animation with playback controls
+- Multiple vehicle type options (Car, SUV, Bus)
+- Route statistics (distance, time)
+- Responsive design
 
-## Technologies Used
+## Tech Stack
 
-- Node.js & Express
-- Socket.io for real-time communication
-- Leaflet.js for map visualization
-- EJS for templating
+- HTML5, CSS3, JavaScript
+- Leaflet Maps API
+- Leaflet Routing Machine
+- Leaflet Animated Marker
 
-## Installation
+## Live Demo
 
-1. Clone this repository
-```
-git clone https://github.com/yourusername/vs-tracker.git
-cd vs-tracker
-```
+View the live application at [https://blockly-tracker.vercel.app](https://blockly-tracker.vercel.app)
+
+## Local Development
+
+To run the project locally:
+
+1. Clone the repository
+   ```
+   git clone https://github.com/manu-bitt/blockly-tracker.git
+   cd blockly-tracker
+   ```
 
 2. Install dependencies
-```
-npm install
-```
+   ```
+   npm install
+   ```
 
-3. Start the server
-```
-node app.js
-```
+3. Start the development server
+   ```
+   npm run dev
+   ```
 
-4. Open your browser and navigate to `http://localhost:3000`
+4. Open your browser and visit `http://localhost:3000`
 
-## Usage
+## Deployment
 
-1. Allow location access when prompted by your browser
-2. Your location will be displayed on the map and shared with other connected users
-3. Toggle between street and satellite views using the layer control in the top-right corner
+This project is deployed as a static site on Vercel.
 
 ## License
 
-MIT 
+ISC 

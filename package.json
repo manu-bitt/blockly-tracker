@@ -1,19 +1,19 @@
 {
-  "name": "vs-tracker",
+  "name": "traaker",
   "version": "1.0.0",
-  "main": "app.js",
+  "description": "Professional vehicle tracking system",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx serve Public"
   },
-  "keywords": [],
+  "keywords": [
+    "tracking",
+    "maps",
+    "vehicles"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^5.1.0"
+  "devDependencies": {
+    "serve": "^14.2.1"
   },
   "engines": {
     "node": "18.x"
