@@ -1,34 +1,24 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
+const path = require('path')
 
-const http = require('http')
-const socketio = require('socket.io')
-const path = require('path')   // you forgot to import path
-
-const server = http.createServer(app)
-const io = socketio(server)
-
+// Configure Express
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'Public')))
 
-// phle socket on hoga joki client server ko connect karega then 
-io.on('connection',function(socket){
-    // phle current location server se jayegi
-    socket.on('send-location',function(data){
-        io.emit('receive-location',{id: socket.id,...data})
-    })
-    console.log('connected')
-    socket.on('disconnect',function(){
-        io.emit('user-disconnected',socket.id)
-    })
-})
-
+// Define routes
 app.get('/', (req, res) => {
     res.render('index')
 })
 
-server.listen(port, () => {
-    console.log(`Traaker server running on port ${port}`)
-})
+// Start server in development environment
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Traaker server running on port ${port}`)
+    })
+}
+
+// Export for serverless use
+module.exports = app
 
